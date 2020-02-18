@@ -1,4 +1,10 @@
 import React, { Component } from 'react';
+import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
+import ButtonToolbar from 'react-bootstrap/ButtonToolbar';
+import Button from 'react-bootstrap/Button';
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 
 class Todo extends Component {
 constructor(props) {
@@ -116,11 +122,22 @@ onCompleteHandle() {
         </form>
         <ul>
           {this.state.mockData.map(item => (
+            
             <li key={item.id} className={ item.done ? 'done' : 'hidden' }>
-              {item.title}
-              <button onClick={this.onDeleteHandle.bind(this, item.id)}>Delete</button>
-              <button onClick={this.onEditHandle.bind(this, item.id, item.title)}>Edit</button>
-              <button onClick={this.onCompleteHandle.bind(this, item.id)}>Complete</button>
+                    <Container>
+                      <Row className="mb-3">
+                      <Col sm="2">
+              {item.title} 
+              </Col>
+
+              <ButtonToolbar>
+<Button className="mr-1 ml-1" variant="danger" onClick={this.onDeleteHandle.bind(this, item.id)}>Delete</Button>
+<Button className="mr-1 ml-1" variant="warning" onClick={this.onEditHandle.bind(this, item.id, item.title)}>Edit</Button>
+<Button className="mr-1 ml-1" variant="success" onClick={this.onCompleteHandle.bind(this, item.id)}>Complete</Button>
+</ButtonToolbar>
+</Row>
+              </Container>
+              
             </li>
           ))}
         </ul>
