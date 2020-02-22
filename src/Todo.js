@@ -1,10 +1,7 @@
 import React, { Component } from 'react';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
-import ButtonToolbar from 'react-bootstrap/ButtonToolbar';
 import Button from 'react-bootstrap/Button';
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
+import Table from 'react-bootstrap/Table';
 
 class Todo extends Component {
 constructor(props) {
@@ -39,6 +36,7 @@ constructor(props) {
         }]
     }
 }
+
 onSubmitHandle(event) {
     event.preventDefault();
     this.setState({
@@ -49,7 +47,8 @@ onSubmitHandle(event) {
         date: new Date()
     }]
 });
-event.target.item.value='';}
+event.target.item.value='';
+}
 
 onDeleteHandle(){
     let id = arguments[0];
@@ -72,7 +71,6 @@ onEditHandle(event) {
 
 onUpdateHandle(event) {
     event.preventDefault();
-
     this.setState({
       mockData: this.state.mockData.map(item => {
         if (item.id === this.state.id) {
@@ -83,11 +81,11 @@ onUpdateHandle(event) {
         return item;
       })
     });
-
     this.setState({
       edit: false
     });
   }
+
 onCompleteHandle() {
     let id = arguments[0];
 
@@ -102,48 +100,64 @@ onCompleteHandle() {
       })
     });
   }
+
   renderEditForm() {
     if (this.state.edit) {
       return <form onSubmit={this.onUpdateHandle.bind(this)}>
+      <div><b>Update Record:</b></div>
         <input type="text" name="updatedItem" className="item" defaultValue={this.state.title} />
         <button className="update-add-item">Update</button>
       </form>
     }
   }
 
-
-  render() {
+  render() { 
     return (
-      <div>
-        {this.renderEditForm()}
-        <form onSubmit={this.onSubmitHandle.bind(this)}>
-          <input type="text" name="item" className="item" />
-          <button className="btn-add-item">Add</button>
-        </form>
-        <ul>
+      <Table striped bordered hover>
+        <tbody>
           {this.state.mockData.map(item => (
-            
-            <li key={item.id} className={ item.done ? 'done' : 'hidden' }>
-                    <Container>
-                      <Row className="mb-3">
-                      <Col sm="2">
-              {item.title} 
-              </Col>
 
-              <ButtonToolbar>
-<Button className="mr-1 ml-1" variant="danger" onClick={this.onDeleteHandle.bind(this, item.id)}>Delete</Button>
-<Button className="mr-1 ml-1" variant="warning" onClick={this.onEditHandle.bind(this, item.id, item.title)}>Edit</Button>
-<Button className="mr-1 ml-1" variant="success" onClick={this.onCompleteHandle.bind(this, item.id)}>Complete</Button>
-</ButtonToolbar>
-</Row>
-              </Container>
-              
-            </li>
+<tr key={item.id}>
+          <th scope="row">{item.id}</th>
+          <td className={ item.done ? 'done' : 'hidden' }><div className="ml-2 mr-2">{item.title}</div></td>
+          <td><div className="ml-2 mr-2">{item.date.toDateString()}</div></td>
+          <td><div className="ml-2 mr-2">SDf</div></td>
+          <td><div className="ml-2 mr-2">Phone</div></td>
+          <td><div className="ml-2 mr-2">Location</div></td>
+          <td>            
+            <div>
+<Button className="mr-1 ml-1 mb-3" variant="danger" onClick={this.onDeleteHandle.bind(this, item.id)}>Delete</Button>
+<Button className="mr-1 ml-1 mb-3" variant="warning" onClick={this.onEditHandle.bind(this, item.id, item.title)}>Edit</Button>
+<Button className="mr-1 ml-1 mb-3" variant="success" onClick={this.onCompleteHandle.bind(this, item.id)}>Complete</Button>
+            </div>
+            </td>
+        </tr>
           ))}
-        </ul>
-      </div>
+          </tbody>
+                  <thead>
+                  <div>
+        {this.renderEditForm()}
+        <b>Add a New Record:</b>
+<form onSubmit={this.onSubmitHandle.bind(this)}>
+<input type="text" name="item" className="item" />
+<button className="btn-add-item">Add</button>
+</form>
+</div>  
+          <tr>
+            <th><div className="mr-2">ID</div></th>
+            <th><div className="mr-2">Task</div></th>
+            <th><div className="mr-2">Date</div></th>
+            <th><div className="mr-2">Hobby</div></th>
+            <th><div className="mr-2">Phone</div></th>
+            <th><div className="mr-2">Location</div></th>
+            <th><div className="mr-2">Actions</div></th>
+          </tr>
+        </thead>
+      </Table>    
     );
+    
   }
+  
 }
 
 export default Todo;
